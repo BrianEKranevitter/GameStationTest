@@ -22,4 +22,9 @@ public class SC_PlayerView : MonoBehaviour
     {
         _sr.flipX = value;
     }
+
+    public void DeathAnimation()
+    {
+        _anim.SetTrigger("Death");
+    }
 }

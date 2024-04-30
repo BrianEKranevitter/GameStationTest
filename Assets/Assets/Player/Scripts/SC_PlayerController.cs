@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SC_PlayerController : MonoBehaviour
+public class SC_PlayerController : MonoBehaviour, IHittable
 {
     #region VARIABLES
     [SerializeField]
@@ -17,20 +17,31 @@ public class SC_PlayerController : MonoBehaviour
     [Tooltip("Player rigidbody component reference")]
     private Rigidbody2D pl_rb;
 
+    [SerializeField]
+    [Tooltip("Game manager reference")]
+    private SCR_GameManager _gm;
+
     private bool _moveLeft, _moveRight;
     private float _currentSpeed;
 
+    private bool _alive = true;
     #endregion
 
     #region FUNCTIONS
 
     void Update()
     {
+        if (!_alive)
+            return;
+
         Animate();
     }
 
     private void FixedUpdate()
     {
+        if (!_alive)
+            return;
+
         Move();
     }
 
@@ -99,6 +110,16 @@ public class SC_PlayerController : MonoBehaviour
     {
         if (RayCastProvider.provideRaycast(pl_model.GetJumpCheckerStartPoint().position, Vector2.down, pl_model.GetJumpCheckerLenght(), pl_model.GetJumpCheckerMask()))
             Jump();
+    }
+
+    public void Hitted()
+    {
+        _gm.SubstractLife();
+        if (_gm.GetLifes() == 0)
+        {
+            pl_view.DeathAnimation();
+            _alive = false;
+        }
     }
     #endregion
 }

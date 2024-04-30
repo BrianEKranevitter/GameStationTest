@@ -8,6 +8,10 @@ public class SCR_ButtonManager : MonoBehaviour
     [SerializeField]
     [Tooltip("Player controller component reference")]
     private SC_PlayerController _playerController;
+
+    [SerializeField]
+    [Tooltip("UIManager object reference")]
+    private SCR_UIManager _uiManager;
     #endregion
 
     public void LeftButtonPressed()
@@ -33,5 +37,22 @@ public class SCR_ButtonManager : MonoBehaviour
     public void JumpButtonPressed()
     {
         _playerController.JumpPressed();
+    }
+
+    public void PauseButtonPressed()
+    {
+        _uiManager.PauseMenu();
+        Time.timeScale = 0;
+    }
+
+    public void ResumeButtonPressed()
+    {
+        _uiManager.ResumeMenu();
+        Time.timeScale = 1;
+    }
+
+    public void RestarButtonPressed()
+    {
+        SCR_SceneMaanger.RestartScene();
     }
 }
