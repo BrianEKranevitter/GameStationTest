@@ -23,9 +23,9 @@ public class SC_PlayerController : MonoBehaviour
     #endregion
 
     #region FUNCTIONS
+
     void Update()
     {
-        JumpCheck();
         Animate();
     }
 
@@ -36,13 +36,7 @@ public class SC_PlayerController : MonoBehaviour
 
     private void Move()
     {
-        pl_rb.velocity = new Vector2(pl_model.GetSpeed(), pl_rb.velocity.y);
-    }
-
-    private void JumpCheck()
-    {
-        if (RayCastProvider.provideRaycast(pl_model.GetJumpCheckerStartPoint().position, Vector2.down, pl_model.GetJumpCheckerLenght(), pl_model.GetJumpCheckerMask()))
-            Jump();
+        pl_rb.velocity = new Vector2(_currentSpeed, pl_rb.velocity.y);
     }
 
     private void Jump()
@@ -55,37 +49,56 @@ public class SC_PlayerController : MonoBehaviour
         pl_view.UpdateValues(pl_rb.velocity.x, pl_rb.velocity.y);
     }
 
-    private void LeftPressed()
+    public void LeftPressed()
     {
         _currentSpeed = -pl_model.GetSpeed();
+        pl_view.FlipSprite(true);
         _moveLeft = true;
 
     }
 
-    private void RightPressed()
+    public void RightPressed()
     {
         _currentSpeed = pl_model.GetSpeed();
+        pl_view.FlipSprite(false);
         _moveRight = true;
     }
 
-    private void LeftReleased()
+    public void LeftReleased()
     {
         _moveLeft = false;
 
         if (_moveRight)
+        {
+            pl_view.FlipSprite(false);
             _currentSpeed = pl_model.GetSpeed();
+        }
         else
             _currentSpeed = 0;
     }
 
-    private void RightReleased()
+    public void RightReleased()
     {
         _moveRight = false;
 
         if (_moveLeft)
+        {
+            pl_view.FlipSprite(true);
             _currentSpeed = -pl_model.GetSpeed();
+        }
         else
             _currentSpeed = 0;
+    }
+
+    public void JumpPressed()
+    {
+        JumpCheck();
+    }
+
+    private void JumpCheck()
+    {
+        if (RayCastProvider.provideRaycast(pl_model.GetJumpCheckerStartPoint().position, Vector2.down, pl_model.GetJumpCheckerLenght(), pl_model.GetJumpCheckerMask()))
+            Jump();
     }
     #endregion
 }

@@ -5,58 +5,33 @@ using UnityEngine;
 public class SCR_ButtonManager : MonoBehaviour
 {
     #region VARIABLES
-    private static SCR_ButtonManager _instance;
-    public static SCR_ButtonManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                Debug.LogError("Game Manager is null");
-
-            return _instance;
-        }
-    }
-
-    private bool moveLeft, moveRight;
-
-    [SerializeField][Tooltip("Player controller component reference")]
+    [SerializeField]
+    [Tooltip("Player controller component reference")]
     private SC_PlayerController _playerController;
     #endregion
 
-    private void Awake()
-    {
-        if (_instance != null)
-            Destroy(gameObject);
-        else
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
-
     public void LeftButtonPressed()
     {
-        moveLeft = true;
+        _playerController.LeftPressed();
     }
 
     public void LeftButtonReleased()
     {
-        moveLeft = false;
+        _playerController.LeftReleased();
     }
 
     public void RightButtonPressed()
     {
-        moveRight = true;
+        _playerController.RightPressed();
     }
 
     public void RightButtonReleased()
     {
-        moveRight = false;
+        _playerController.RightReleased();
     }
 
-    void PassToPlayer()
+    public void JumpButtonPressed()
     {
-
+        _playerController.JumpPressed();
     }
 }
