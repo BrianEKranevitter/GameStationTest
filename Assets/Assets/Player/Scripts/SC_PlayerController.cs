@@ -45,21 +45,25 @@ public class SC_PlayerController : MonoBehaviour, IHittable
         Move();
     }
 
+    //Function that moves the player
     private void Move()
     {
         pl_rb.velocity = new Vector2(_currentSpeed, pl_rb.velocity.y);
     }
 
+    //Function that makes the player jump
     private void Jump()
     {
         pl_rb.AddForce(Vector2.up * pl_model.GetJumpStrenght(), ForceMode2D.Impulse);
     }
 
+    //Function that executes animations
     private void Animate()
     {
         pl_view.UpdateValues(pl_rb.velocity.x, pl_rb.velocity.y);
     }
 
+    //Left button has been pressed
     public void LeftPressed()
     {
         _currentSpeed = -pl_model.GetSpeed();
@@ -68,6 +72,7 @@ public class SC_PlayerController : MonoBehaviour, IHittable
 
     }
 
+    //Right button has been pressed
     public void RightPressed()
     {
         _currentSpeed = pl_model.GetSpeed();
@@ -75,6 +80,7 @@ public class SC_PlayerController : MonoBehaviour, IHittable
         _moveRight = true;
     }
 
+    //Left button has been released
     public void LeftReleased()
     {
         _moveLeft = false;
@@ -88,6 +94,7 @@ public class SC_PlayerController : MonoBehaviour, IHittable
             _currentSpeed = 0;
     }
 
+    //Right button has been released
     public void RightReleased()
     {
         _moveRight = false;
@@ -101,17 +108,20 @@ public class SC_PlayerController : MonoBehaviour, IHittable
             _currentSpeed = 0;
     }
 
+    //Jump button has been pressed
     public void JumpPressed()
     {
         JumpCheck();
     }
 
+    //The player is on the ground and ready to jump
     private void JumpCheck()
     {
         if (RayCastProvider.provideRaycast(pl_model.GetJumpCheckerStartPoint().position, Vector2.down, pl_model.GetJumpCheckerLenght(), pl_model.GetJumpCheckerMask()))
             Jump();
     }
 
+    //The player has been hitted by something
     public void Hitted()
     {
         _gm.SubstractLife();
